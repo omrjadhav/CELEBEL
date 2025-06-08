@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stepper Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 400px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .step {
+      display: none;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    .buttons {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .buttons button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .buttons button:disabled {
+      background-color: #ccc;
+    }
+
+    .step-indicators {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .step-indicators .circle {
+      width: 30px;
+      height: 30px;
+      background: #ccc;
+      color: white;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 30px;
+      font-weight: bold;
+    }
+
+    .step-indicators .active {
+      background-color: #007bff;
+    }
+
+    .step-indicators .finished {
+      background-color: #28a745;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      box-sizing: border-box;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <div class="step-indicators">
+      <div class="circle active">1</div>
+      <div class="circle">2</div>
+      <div class="circle">3</div>
+    </div>
+
+    <form id="stepForm">
+
+      <div class="step active">
+        <h3>Step 1</h3>
+        <input type="text" id="name" placeholder="Enter your name" required />
+      </div>
+
+      <div class="step">
+        <h3>Step 2</h3>
+        <input type="email" id="email" placeholder="Enter your email" required />
+      </div>
+
+      <div class="step">
+        <h3>Step 3</h3>
+        <input type="password" id="password" placeholder="Enter password" required />
+      </div>
+
+      <div class="buttons">
+        <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+        <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    let currentStep = 0;
+    const steps = document.querySelectorAll('.step');
+    const indicators = document.querySelectorAll('.step-indicators .circle');
+
+    function showStep(n) {
+      steps.forEach((step, index) => {
+        step.classList.remove("active");
+        if(index === n) step.classList.add("active");
+      });
+
+      indicators.forEach((ind, i) => {
+        ind.classList.remove("active", "finished");
+        if (i < n) ind.classList.add("finished");
+        else if (i === n) ind.classList.add("active");
+      });
+
+      document.getElementById("prevBtn").style.display = n === 0 ? "none" : "inline";
+      document.getElementById("nextBtn").innerText = n === (steps.length - 1) ? "Submit" : "Next";
+    }
+
+    function nextPrev(n) {
+      // Validate before going forward
+      if (n === 1 && !validateForm()) return false;
+
+      currentStep += n;
+
+      if (currentStep >= steps.length) {
+        document.getElementById("stepForm").submit();
+        return false;
+      }
+
+      showStep(currentStep);
+    }
+
+    function validateForm() {
+      const inputs = steps[currentStep].getElementsByTagName("input");
+      for (let input of inputs) {
+        if (input.value === "") {
+          input.style.border = "1px solid red";
+          return false;
+        } else {
+          input.style.border = "";
+        }
+      }
+      return true;
+    }
+
+    showStep(currentStep);
+  </script>
+
+</body>
+</html>
