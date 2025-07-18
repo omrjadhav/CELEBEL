@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JavaScript Practice Tasks</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h2 { margin-top: 40px; color: #0d6efd; }
+    pre { background: #f8f9fa; padding: 10px; border-left: 4px solid #0d6efd; }
+  </style>
+</head>
+<body>
+
+<h1>JavaScript Code Snippets</h1>
+
+<h2>1. Join All Elements of an Array</h2>
+<pre>
+let myColor = ["Red", "Green", "White", "Black"];
+console.log(myColor.join());       // "Red,Green,White,Black"
+console.log(myColor.join(','));    // "Red,Green,White,Black"
+console.log(myColor.join('+'));    // "Red+Green+White+Black"
+</pre>
+
+<h2>2. Most Frequent Item in Array</h2>
+<pre>
+let arr1 = [3, 'a', 'a', 'a', 2, 3, 'a', 3, 'a', 2, 4, 9, 3];
+let frequency = {};
+let maxFreq = 0;
+let mostCommon;
+
+arr1.forEach(item => {
+  frequency[item] = (frequency[item] || 0) + 1;
+  if (frequency[item] > maxFreq) {
+    maxFreq = frequency[item];
+    mostCommon = item;
+  }
+});
+console.log(`${mostCommon} ( ${maxFreq} times )`);  // a ( 5 times )
+</pre>
+
+<h2>3. Truncate a String</h2>
+<pre>
+function truncateString(str, num) {
+  return str.slice(0, num);
+}
+console.log(truncateString("Robin Singh", 4)); // "Robi"
+</pre>
+
+<h2>4. Capitalize Words</h2>
+<pre>
+function capitalizeWords(str) {
+  return str
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+console.log(capitalizeWords('js string exercises')); // "Js String Exercises"
+</pre>
+
+<h2>5. arrBetween (from Edabit)</h2>
+<pre>
+function arrBetween(a, b, arr) {
+  return arr.filter(x => x > a && x < b);
+}
+console.log(arrBetween(3, 8, [1, 5, 95, 0, 4, 7])); // [5, 4, 7]
+console.log(arrBetween(1, 10, [1, 10, 25, 8, 11, 6])); // [8, 6]
+console.log(arrBetween(7, 32, [1, 2, 3, 78])); // []
+</pre>
+
+<h2>6. Find Index (from Edabit)</h2>
+<pre>
+function findIndex(arr, val) {
+  return arr.indexOf(val);
+}
+console.log(findIndex(["hi", "edabit", "fgh", "abc"], "fgh")); // 2
+console.log(findIndex(["Red", "blue", "Blue", "Green"], "blue")); // 1
+console.log(findIndex(["a", "g", "y", "d"], "d")); // 3
+console.log(findIndex(["Pineapple", "Orange", "Grape", "Apple"], "Pineapple")); // 0
+</pre>
+
+</body>
+</html>
